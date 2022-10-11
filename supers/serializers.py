@@ -3,7 +3,7 @@ from .models import Super
 from super_types.models import SuperType
 
 
-class SuperSerialzier(serializers.ModelSerializer):
+class SuperSerializer(serializers.ModelSerializer):
     class Meta:
         model = Super
         fields = ['id','name','alter_ego','primary_ability','secondary_ability','super_type','super_type_id']

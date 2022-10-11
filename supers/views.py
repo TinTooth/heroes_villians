@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Super
-from .serializers import SuperSerialzier
+from .serializers import SuperSerializer
 from super_types.models import SuperType
 
 
@@ -17,14 +17,14 @@ def supers_list(request):
         type_param = request.query_params.get('type')
         if type_param:
             query_set = Super.objects.filter(super_type__type = type_param)
-            serializer = SuperSerialzier(query_set, many = True)
+            serializer = SuperSerializer(query_set, many = True)
             return Response(serializer.data, status= status.HTTP_200_OK)
         
         super_types = SuperType.objects.all()
         custom_response_dictionary = {}
         for type in super_types:
             supers = Super.objects.filter(super_type = type.id)
-            super_serialzier = SuperSerialzier(supers, many = True)
+            super_serialzier = SuperSerializer(supers, many = True)
 
             custom_response_dictionary[type.type] = {
                 "Supers": super_serialzier.data
@@ -33,7 +33,7 @@ def supers_list(request):
         return Response(custom_response_dictionary)
         
     if request.method == 'POST':
-        serializer = SuperSerialzier(data = request.data)
+        serializer = SuperSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data,status= status.HTTP_201_CREATED)
@@ -45,10 +45,10 @@ def super_detail(request, pk):
     result = get_object_or_404(Super, pk = pk)
 
     if request.method == 'GET':
-        serializer = SuperSerialzier(result)
+        serializer = SuperSerializer(result)
         return Response(serializer.data, status = status.HTTP_200_OK)
     elif request.method == 'PUT':
-        serializer = SuperSerialzier(result, data = request.data)
+        serializer = SuperSerializer(result, data = request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data,status=status.HTTP_200_OK)
