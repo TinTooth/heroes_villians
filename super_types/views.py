@@ -1,6 +1,4 @@
 
-import imp
-from urllib import response
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,8 +6,6 @@ from rest_framework import status
 from .models import SuperType
 from .serializer import SuperTypeSerialzer
 from super_types.models import SuperType
-
-from super_types import serializer
 
 
 @api_view(['GET','POST'])
